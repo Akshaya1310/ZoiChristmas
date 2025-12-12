@@ -79,8 +79,7 @@ const ChristmasPage = () => {
       border: 'border-slate-300/60',
       glow: 'shadow-slate-400/30',
       badge: 'bg-slate-100',
-      // wheelColor: '#94a3b8',
-      wheelColor: '#f9fafcff',
+      wheelColor: '#94a3b8',
       members: ['Srinath', 'Muthu Rathi', 'Maria Arokia Peno', 'Pon Abishek', 'Jamuna', 'Thangaraja', 'Selva Lakshmi', 'Akshaya']
     },
     {
@@ -238,7 +237,7 @@ const ChristmasPage = () => {
 
   const CompanyLogos = ({ showAll = false }: { showAll?: boolean }) => (
     <>
-      {/* Top Center Logo - Zoifintech.png */}
+      {/* Top Center Logo - Zoifintech.png - Made smaller on mobile */}
       <div className="absolute top-2 sm:top-4 left-1/2 transform -translate-x-1/2 z-20 w-full px-4 flex justify-center">
         <div className="relative bg-gradient-to-br from-white/90 to-white/70 backdrop-blur-md rounded-lg sm:rounded-xl md:rounded-2xl p-1 sm:p-1.5 md:p-3 shadow-xl sm:shadow-2xl border border-yellow-300/40 sm:border-2 sm:border-yellow-300/50 max-w-[90px] xs:max-w-[100px] sm:max-w-[140px] md:max-w-[180px] lg:max-w-[200px]">
           <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/20 to-amber-500/20 rounded-lg sm:rounded-xl md:rounded-2xl blur-sm"></div>
@@ -257,9 +256,9 @@ const ChristmasPage = () => {
         </div>
       </div>
 
-      {/* Left Bottom Logo - trakzo.png */}
+      {/* Left Bottom Logo - trakzo.png - Show in all screens if showAll is true */}
       {(showAll || currentPage !== 'name-select') && (
-        <div className="fixed bottom-4 sm:bottom-6 left-2 sm:left-4 md:left-6 lg:left-8 z-20">
+        <div className="absolute bottom-4 sm:bottom-6 left-2 sm:left-4 md:left-6 lg:left-8 z-20">
           <div className="relative backdrop-blur-sm rounded-lg sm:rounded-xl md:rounded-2xl p-1 sm:p-1.5 md:p-2 shadow-lg sm:shadow-xl border border-white/20 sm:border-2 sm:border-white/30 max-w-[70px] xs:max-w-[80px] sm:max-w-[100px] md:max-w-[120px] lg:max-w-[140px]">
             <div className="absolute inset-0 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-lg sm:rounded-xl md:rounded-2xl blur-sm"></div>
             <div className="relative">
@@ -278,9 +277,9 @@ const ChristmasPage = () => {
         </div>
       )}
 
-      {/* Right Bottom Logo - Jademoney.png */}
+      {/* Right Bottom Logo - Jademoney.png - Show in all screens if showAll is true */}
       {(showAll || currentPage !== 'name-select') && (
-        <div className="fixed bottom-4 sm:bottom-6 right-2 sm:right-4 md:right-6 lg:right-8 z-20">
+        <div className="absolute bottom-4 sm:bottom-6 right-2 sm:right-4 md:right-6 lg:right-8 z-20">
           <div className="relative backdrop-blur-sm rounded-lg sm:rounded-xl md:rounded-2xl p-1 sm:p-1.5 md:p-2 shadow-lg sm:shadow-xl border border-white/20 sm:border-2 sm:border-white/30 max-w-[70px] xs:max-w-[80px] sm:max-w-[100px] md:max-w-[120px] lg:max-w-[140px]">
             <div className="absolute inset-0 bg-gradient-to-br from-green-400/10 to-emerald-400/10 rounded-lg sm:rounded-xl md:rounded-2xl blur-sm"></div>
             <div className="relative">
@@ -291,7 +290,7 @@ const ChristmasPage = () => {
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   target.onerror = null;
-                  target.src = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iMzIiIHZpZXdCYW94PSIwIDAgOTYgMzIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iIzEwQjUyMCIvPjx0ZXh0IHg9IjQ4IiB5PSIxNiIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+SmFkZW1vbnk8L3RleHQ+PC9zdmc+";
+                  target.src = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iMzIiIHZpZXdCYW94PSIwIDAgOTYgMzIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iIzEwQjUyMCIvPjx0ZXh0IHg9IjQ4IiB5PSIxNiIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+SmFkZW1vbmV5PC90ZXh0Pjwvc3ZnPg==";
                 }}
               />
             </div>
@@ -308,7 +307,7 @@ const ChristmasPage = () => {
   };
 
   return (
-    <div className="min-h-screen relative bg-gradient-to-br from-emerald-950 via-red-950 to-amber-950">
+    <div className="min-h-screen relative overflow-y-auto bg-gradient-to-br from-emerald-950 via-red-950 to-amber-950 scroll-smooth">
       <BackgroundElements />
       
       {/* Show all logos on all screens except name-select */}
@@ -316,7 +315,7 @@ const ChristmasPage = () => {
       
       {/* Name Selection Screen */}
       {currentPage === 'name-select' && (
-        <div className="min-h-screen relative z-10 flex items-center justify-center px-4 py-20 sm:py-24">
+        <div className="min-h-screen relative z-10 flex items-center justify-center px-4 py-20 sm:py-24 overflow-y-auto scroll-smooth">
           <div className="w-full max-w-2xl">
             {/* Only show Zoifintech logo on name-select screen */}
             <div className="absolute top-2 sm:top-4 left-1/2 transform -translate-x-1/2 z-20 w-full px-4 flex justify-center">
@@ -392,7 +391,7 @@ const ChristmasPage = () => {
 
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-br from-red-900/40 via-green-900/40 to-red-900/40 rounded-2xl blur-xl opacity-40"></div>
-              <div className="relative bg-gradient-to-br from-red-900/60 via-green-900/60 to-red-900/60 backdrop-blur-xl rounded-2xl p-3 sm:p-4 md:p-6 border-2 border-yellow-400/40 max-h-80 sm:max-h-96 overflow-y-auto custom-scrollbar">
+              <div className="relative bg-gradient-to-br from-red-900/60 via-green-900/60 to-red-900/60 backdrop-blur-xl rounded-2xl p-3 sm:p-4 md:p-6 border-2 border-yellow-400/40 max-h-80 sm:max-h-96 overflow-y-auto custom-scrollbar scroll-smooth">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3">
                   {filteredMembers.map((member, i) => (
                     <button
@@ -452,7 +451,7 @@ const ChristmasPage = () => {
 
       {/* Spin Wheel Screen */}
       {currentPage === 'spin' && (
-        <div className="min-h-screen relative z-10 flex flex-col items-center justify-center px-4 pt-16 sm:pt-20 py-12 sm:py-16">
+        <div className="min-h-screen relative z-10 flex flex-col items-center justify-center px-4 pt-16 sm:pt-20 py-12 sm:py-16 overflow-y-auto scroll-smooth">
           <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-yellow-300 mb-6 sm:mb-8 md:mb-10 text-center font-serif px-2"
               style={{textShadow: '2px 2px 6px rgba(0, 0, 0, 0.5)'}}>
             🎰 Click to Spin the Christmas Wheel! 🎰
@@ -548,7 +547,7 @@ const ChristmasPage = () => {
 
       {/* Result Screen */}
       {currentPage === 'result' && revealedTeam && (
-        <div className="min-h-screen relative z-10 flex items-center justify-center px-4 pt-16 sm:pt-20 py-12 sm:py-16">
+        <div className="min-h-screen relative z-10 flex items-center justify-center px-4 pt-16 sm:pt-20 py-12 sm:py-16 overflow-y-auto scroll-smooth">
           <div className="text-center max-w-2xl w-full" style={{animation: 'fadeInScale 0.8s ease-out'}}>
             <div className="mb-4 sm:mb-6 text-5xl sm:text-6xl md:text-7xl lg:text-8xl animate-bounce" style={{animationDuration: '1s'}}>
               {revealedTeam.icon}
@@ -620,111 +619,109 @@ const ChristmasPage = () => {
 
       {/* All Teams View Modal */}
       {showAllTeams && (
-        <div className="fixed inset-0 z-50 bg-gradient-to-br from-emerald-950 via-red-950 to-amber-950">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-gradient-to-br from-emerald-950 via-red-950 to-amber-950 scroll-smooth">
           <BackgroundElements />
           <CompanyLogos showAll={true} />
           
-          <div className="relative z-10 h-full w-full overflow-y-auto">
-            <div className="min-h-full px-3 sm:px-4 pt-16 sm:pt-20 pb-20 sm:pb-24">
-              <div className="max-w-7xl mx-auto">
-                <div className="text-center mb-6 sm:mb-8 md:mb-10 lg:mb-12">
-                  <div className="mb-3 sm:mb-4 md:mb-5">
-                    <div className="relative inline-block">
-                      <div className="absolute inset-0 bg-yellow-400 blur-xl sm:blur-2xl opacity-30 animate-pulse"></div>
-                      <svg width="60" height="60" className="sm:w-[70px] sm:h-[70px] md:w-[80px] md:h-[80px] lg:w-[90px] lg:h-[90px] relative drop-shadow-2xl mx-auto" viewBox="0 0 120 120">
-                        <defs>
-                          <linearGradient id="treeGradAll" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" style={{stopColor: '#2d5016', stopOpacity: 1}} />
-                            <stop offset="100%" style={{stopColor: '#1a3d0a', stopOpacity: 1}} />
-                          </linearGradient>
-                          <radialGradient id="starGradAll">
-                            <stop offset="0%" style={{stopColor: '#ffed4e', stopOpacity: 1}} />
-                            <stop offset="100%" style={{stopColor: '#ffd700', stopOpacity: 1}} />
-                          </radialGradient>
-                        </defs>
-                        <polygon points="60,15 80,50 70,50 90,80 30,80 50,50 40,50" fill="url(#treeGradAll)" stroke="#0f2308" strokeWidth="2"/>
-                        <polygon points="60,20 75,50 45,50" fill="#4a7c23" opacity="0.6"/>
-                        <rect x="55" y="80" width="10" height="20" fill="#5c3317" stroke="#3d2211" strokeWidth="1"/>
-                        <circle cx="60" cy="30" r="3" fill="#ff0000" className="animate-pulse"/>
-                        <circle cx="50" cy="55" r="3" fill="#ffd700"/>
-                        <circle cx="70" cy="60" r="3" fill="#0066ff" className="animate-pulse"/>
-                        <circle cx="45" cy="70" r="2.5" fill="#ff0000"/>
-                        <circle cx="75" cy="72" r="2.5" fill="#ffd700" className="animate-pulse"/>
-                        <path d="M 60,5 L 63,12 L 70,12 L 65,17 L 67,24 L 60,19 L 53,24 L 55,17 L 50,12 L 57,12 Z" 
-                              fill="url(#starGradAll)" stroke="#ffa500" strokeWidth="1" className="animate-pulse"/>
-                      </svg>
+          <div className="relative z-10 min-h-screen px-3 sm:px-4 pt-16 sm:pt-20 py-12 sm:py-16 overflow-y-auto">
+            <div className="max-w-7xl mx-auto">
+              <div className="text-center mb-6 sm:mb-8 md:mb-10 lg:mb-12">
+                <div className="mb-3 sm:mb-4 md:mb-5">
+                  <div className="relative inline-block">
+                    <div className="absolute inset-0 bg-yellow-400 blur-xl sm:blur-2xl opacity-30 animate-pulse"></div>
+                    <svg width="60" height="60" className="sm:w-[70px] sm:h-[70px] md:w-[80px] md:h-[80px] lg:w-[90px] lg:h-[90px] relative drop-shadow-2xl mx-auto" viewBox="0 0 120 120">
+                      <defs>
+                        <linearGradient id="treeGradAll" x1="0%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%" style={{stopColor: '#2d5016', stopOpacity: 1}} />
+                          <stop offset="100%" style={{stopColor: '#1a3d0a', stopOpacity: 1}} />
+                        </linearGradient>
+                        <radialGradient id="starGradAll">
+                          <stop offset="0%" style={{stopColor: '#ffed4e', stopOpacity: 1}} />
+                          <stop offset="100%" style={{stopColor: '#ffd700', stopOpacity: 1}} />
+                        </radialGradient>
+                      </defs>
+                      <polygon points="60,15 80,50 70,50 90,80 30,80 50,50 40,50" fill="url(#treeGradAll)" stroke="#0f2308" strokeWidth="2"/>
+                      <polygon points="60,20 75,50 45,50" fill="#4a7c23" opacity="0.6"/>
+                      <rect x="55" y="80" width="10" height="20" fill="#5c3317" stroke="#3d2211" strokeWidth="1"/>
+                      <circle cx="60" cy="30" r="3" fill="#ff0000" className="animate-pulse"/>
+                      <circle cx="50" cy="55" r="3" fill="#ffd700"/>
+                      <circle cx="70" cy="60" r="3" fill="#0066ff" className="animate-pulse"/>
+                      <circle cx="45" cy="70" r="2.5" fill="#ff0000"/>
+                      <circle cx="75" cy="72" r="2.5" fill="#ffd700" className="animate-pulse"/>
+                      <path d="M 60,5 L 63,12 L 70,12 L 65,17 L 67,24 L 60,19 L 53,24 L 55,17 L 50,12 L 57,12 Z" 
+                            fill="url(#starGradAll)" stroke="#ffa500" strokeWidth="1" className="animate-pulse"/>
+                    </svg>
+                  </div>
+                </div>
+                
+                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold mb-2 sm:mb-3 md:mb-4"
+                    style={{
+                      fontFamily: 'Georgia, serif',
+                      textShadow: '3px 3px 0px rgba(139, 0, 0, 0.3), 6px 6px 15px rgba(255, 215, 0, 0.4)',
+                      background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 25%, #ffd700 50%, #ffa500 75%, #ffd700 100%)',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundSize: '200% auto',
+                      animation: 'shimmer 3s linear infinite'
+                    }}>
+                  All Christmas Teams 🎄
+                </h1>
+                
+                <p className="text-yellow-100 text-sm sm:text-base md:text-lg lg:text-xl font-serif italic">
+                  ✨ Our Amazing Holiday Squads ✨
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-5 lg:gap-6 mb-6 sm:mb-8 md:mb-10 lg:mb-12">
+                {teams.map((team, i) => (
+                  <div
+                    key={i}
+                    className={`relative bg-gradient-to-br ${team.color} backdrop-blur-xl rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-5 lg:p-6 shadow-lg sm:shadow-xl hover:shadow-2xl border-2 ${team.border} transform hover:scale-[1.02] transition-all duration-300 ${team.glow} cursor-default`}
+                  >
+                    <div className="text-4xl sm:text-5xl md:text-6xl text-center mb-2 sm:mb-3 md:mb-4 animate-bounce" style={{animationDuration: '2s', animationDelay: `${i * 0.2}s`}}>
+                      {team.icon}
+                    </div>
+                    <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-yellow-300 text-center mb-3 sm:mb-4 md:mb-5 font-serif" 
+                        style={{textShadow: '2px 2px 4px rgba(0,0,0,0.3)'}}>
+                      {team.title}
+                    </h3>
+                    <div className="space-y-1 sm:space-y-1.5 md:space-y-2">
+                      {team.members.map((member, j) => (
+                        <div 
+                          key={j} 
+                          className={`backdrop-blur-sm rounded-md sm:rounded-lg p-1.5 sm:p-2 md:p-2.5 text-yellow-50 text-center font-medium border transition-all duration-300 shadow-md hover:shadow-lg transform hover:translate-x-0.5 text-xs sm:text-sm md:text-base ${
+                            member === selectedName
+                              ? 'bg-gradient-to-r from-yellow-400/40 to-amber-600/40 border-yellow-400 shadow-lg shadow-yellow-400/50'
+                              : 'bg-white/15 border-yellow-400/20 hover:bg-white/20 hover:border-yellow-400/40'
+                          }`}
+                          style={{textShadow: '1px 1px 2px rgba(0,0,0,0.5)'}}
+                        >
+                          {member === selectedName ? '👑 ' : '⭐ '}{member}
+                          {member === selectedName && ' (You!)'}
+                        </div>
+                      ))}
                     </div>
                   </div>
-                  
-                  <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold mb-2 sm:mb-3 md:mb-4"
-                      style={{
-                        fontFamily: 'Georgia, serif',
-                        textShadow: '3px 3px 0px rgba(139, 0, 0, 0.3), 6px 6px 15px rgba(255, 215, 0, 0.4)',
-                        background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 25%, #ffd700 50%, #ffa500 75%, #ffd700 100%)',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        backgroundSize: '200% auto',
-                        animation: 'shimmer 3s linear infinite'
-                      }}>
-                    All Christmas Teams 🎄
-                  </h1>
-                  
-                  <p className="text-yellow-100 text-sm sm:text-base md:text-lg lg:text-xl font-serif italic">
-                    ✨ Our Amazing Holiday Squads ✨
-                  </p>
-                </div>
+                ))}
+              </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-5 lg:gap-6 mb-6 sm:mb-8 md:mb-10 lg:mb-12">
-                  {teams.map((team, i) => (
-                    <div
-                      key={i}
-                      className={`relative bg-gradient-to-br ${team.color} backdrop-blur-xl rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-5 lg:p-6 shadow-lg sm:shadow-xl hover:shadow-2xl border-2 ${team.border} transform hover:scale-[1.02] transition-all duration-300 ${team.glow} cursor-default`}
-                    >
-                      <div className="text-4xl sm:text-5xl md:text-6xl text-center mb-2 sm:mb-3 md:mb-4 animate-bounce" style={{animationDuration: '2s', animationDelay: `${i * 0.2}s`}}>
-                        {team.icon}
-                      </div>
-                      <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-yellow-300 text-center mb-3 sm:mb-4 md:mb-5 font-serif" 
-                          style={{textShadow: '2px 2px 4px rgba(0,0,0,0.3)'}}>
-                        {team.title}
-                      </h3>
-                      <div className="space-y-1 sm:space-y-1.5 md:space-y-2">
-                        {team.members.map((member, j) => (
-                          <div 
-                            key={j} 
-                            className={`backdrop-blur-sm rounded-md sm:rounded-lg p-1.5 sm:p-2 md:p-2.5 text-yellow-50 text-center font-medium border transition-all duration-300 shadow-md hover:shadow-lg transform hover:translate-x-0.5 text-xs sm:text-sm md:text-base ${
-                              member === selectedName
-                                ? 'bg-gradient-to-r from-yellow-400/40 to-amber-600/40 border-yellow-400 shadow-lg shadow-yellow-400/50'
-                                : 'bg-white/15 border-yellow-400/20 hover:bg-white/20 hover:border-yellow-400/40'
-                            }`}
-                            style={{textShadow: '1px 1px 2px rgba(0,0,0,0.5)'}}
-                          >
-                            {member === selectedName ? '👑 ' : '⭐ '}{member}
-                            {member === selectedName && ' (You!)'}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="text-center space-y-3 sm:space-y-4 md:space-y-5 lg:space-y-6 pb-20 sm:pb-24">
-                  <p className="text-yellow-200 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-serif italic px-2"
-                     style={{textShadow: '2px 2px 6px rgba(0, 0, 0, 0.5)'}}>
-                    🎄 Wishing Everyone a Magical Holiday Season! 🎄
-                  </p>
-                  <p className="text-yellow-300/80 text-xs sm:text-sm md:text-base lg:text-lg font-serif mb-4 sm:mb-6 md:mb-8 px-2">
-                    Let's make this Christmas celebration unforgettable! 🎉
-                  </p>
-                  
-                  <button
-                    onClick={() => setShowAllTeams(false)}
-                    className="relative group px-3 sm:px-4 md:px-6 lg:px-8 py-1.5 sm:py-2 md:py-3 lg:py-4 rounded-xl sm:rounded-2xl bg-gradient-to-r from-red-500 via-red-600 to-red-500 text-white font-bold text-sm sm:text-base md:text-lg lg:text-xl shadow-lg sm:shadow-xl hover:shadow-red-400/50 transform hover:scale-[1.02] active:scale-95 transition-all duration-300 border-2 sm:border-3 md:border-4 border-red-300 mx-auto"
-                    style={{fontFamily: 'Georgia, serif'}}
-                  >
-                    <span className="relative z-10">← Back to My Team</span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-red-400 via-red-500 to-red-400 rounded-xl sm:rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-md"></div>
-                  </button>
-                </div>
+              <div className="text-center space-y-3 sm:space-y-4 md:space-y-5 lg:space-y-6">
+                <p className="text-yellow-200 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-serif italic px-2"
+                   style={{textShadow: '2px 2px 6px rgba(0, 0, 0, 0.5)'}}>
+                  🎄 Wishing Everyone a Magical Holiday Season! 🎄
+                </p>
+                <p className="text-yellow-300/80 text-xs sm:text-sm md:text-base lg:text-lg font-serif mb-4 sm:mb-6 md:mb-8 px-2">
+                  Let's make this Christmas celebration unforgettable! 🎉
+                </p>
+                
+                <button
+                  onClick={() => setShowAllTeams(false)}
+                  className="relative group px-3 sm:px-4 md:px-6 lg:px-8 py-1.5 sm:py-2 md:py-3 lg:py-4 rounded-xl sm:rounded-2xl bg-gradient-to-r from-red-500 via-red-600 to-red-500 text-white font-bold text-sm sm:text-base md:text-lg lg:text-xl shadow-lg sm:shadow-xl hover:shadow-red-400/50 transform hover:scale-[1.02] active:scale-95 transition-all duration-300 border-2 sm:border-3 md:border-4 border-red-300 mx-auto"
+                  style={{fontFamily: 'Georgia, serif'}}
+                >
+                  <span className="relative z-10">← Back to My Team</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-red-400 via-red-500 to-red-400 rounded-xl sm:rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-md"></div>
+                </button>
               </div>
             </div>
           </div>
@@ -810,6 +807,11 @@ const ChristmasPage = () => {
           transform: scale(1.1);
         }
         
+        /* Smooth scrolling for the entire page */
+        html {
+          scroll-behavior: smooth;
+        }
+        
         /* Responsive breakpoints */
         @media (max-width: 480px) {
           .xs\:max-w-\[100px\] {
@@ -826,7 +828,7 @@ const ChristmasPage = () => {
           }
           
           input {
-            font-size: 16px;
+            font-size: 16px; /* Prevents zoom on iOS */
           }
         }
         
