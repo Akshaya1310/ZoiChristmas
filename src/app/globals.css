@@ -8,6 +8,11 @@ body:has(.fixed.inset-0) {
   overflow: hidden;
 }
 
+
+html {
+  -webkit-overflow-scrolling: touch;
+  overflow-scrolling: touch;
+}
 /* Smooth scrolling only for scrollable containers */
 .scroll-smooth {
   scroll-behavior: smooth;

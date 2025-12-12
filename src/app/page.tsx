@@ -1,8 +1,6 @@
-
-
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const ChristmasPage = () => {
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
@@ -14,26 +12,81 @@ const ChristmasPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState('name-select');
   const [showAllTeams, setShowAllTeams] = useState(false);
+  const [isScrolling, setIsScrolling] = useState(false);
+  const scrollTimer = useRef<NodeJS.Timeout | null>(null);
 
+  // Optimize mobile scroll performance
   useEffect(() => {
     setMounted(true);
-   const calculateCountdown = () => {
-  const celebration = new Date('2025-12-20T00:00:00');
-  const now = new Date();
-  const diff = celebration.getTime() - now.getTime(); // Add .getTime() here
+    
+    // Add CSS for better scrolling
+    const style = document.createElement('style');
+    style.textContent = `
+      html {
+        -webkit-overflow-scrolling: touch;
+        overflow-scrolling: touch;
+      }
+      body {
+        overflow: auto !important;
+        position: relative;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+    `;
+    document.head.appendChild(style);
 
-  if (diff > 0) {
-    setCountdown({
-      days: Math.floor(diff / (1000 * 60 * 60 * 24)),
-      hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
-      minutes: Math.floor((diff / (1000 * 60)) % 60),
-      seconds: Math.floor((diff / 1000) % 60)
-    });
-  }
-};
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
+
+  useEffect(() => {
+    const calculateCountdown = () => {
+      const celebration = new Date('2025-12-20T00:00:00');
+      const now = new Date();
+      const diff = celebration.getTime() - now.getTime();
+
+      if (diff > 0) {
+        setCountdown({
+          days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+          minutes: Math.floor((diff / (1000 * 60)) % 60),
+          seconds: Math.floor((diff / 1000) % 60)
+        });
+      }
+    };
+    
     calculateCountdown();
     const timer = setInterval(calculateCountdown, 1000);
     return () => clearInterval(timer);
+  }, []);
+
+  // Handle scroll events for mobile optimization
+  const handleScroll = () => {
+    if (!isScrolling) {
+      setIsScrolling(true);
+    }
+    
+    if (scrollTimer.current) {
+      clearTimeout(scrollTimer.current);
+    }
+    
+    scrollTimer.current = setTimeout(() => {
+      setIsScrolling(false);
+    }, 150);
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('touchmove', handleScroll, { passive: true });
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('touchmove', handleScroll);
+      if (scrollTimer.current) {
+        clearTimeout(scrollTimer.current);
+      }
+    };
   }, []);
 
   const teams = [
@@ -45,7 +98,7 @@ const ChristmasPage = () => {
       glow: 'shadow-blue-500/30',
       badge: 'bg-blue-500',
       wheelColor: '#3b82f6',
-      members: ['Sabari Krishnan', 'Nisanth', 'Melda', 'Kader Riyaz', 'Dhanusiya', 'ArunNathan','Sornalatha']
+      members: ['Sabari Krishnan', 'Nisanth', 'Melda', 'Kader Riyaz', 'Dhanusiya', 'ArunNathan', 'Sornalatha']
     },
     {
       title: 'Snowman Buddies',
@@ -55,7 +108,7 @@ const ChristmasPage = () => {
       glow: 'shadow-red-500/30',
       badge: 'bg-red-500',
       wheelColor: '#ef4444',
-      members: [ 'Tony Walter','Vaikundamani', 'Prem Kumar', 'Sornalakshmi', 'Ignecia Rathna','Raja Prabu','Maharaja']
+      members: ['Tony Walter', 'Vaikundamani', 'Prem Kumar', 'Sornalakshmi', 'Ignecia Rathna', 'Raja Prabu', 'Maharaja']
     },
     {
       title: 'Sugar Plum Fairies',
@@ -65,7 +118,7 @@ const ChristmasPage = () => {
       glow: 'shadow-slate-400/30',
       badge: 'bg-slate-100',
       wheelColor: '#94a3b8',
-      members: ['Srinath','Muthu Rathi', 'Maria Arokia Peno' , 'Pon Abishek', 'Jamuna','Thangaraja', 'Selva Lakshmi', 'Akshaya']
+      members: ['Srinath', 'Muthu Rathi', 'Maria Arokia Peno', 'Pon Abishek', 'Jamuna', 'Thangaraja', 'Selva Lakshmi', 'Akshaya']
     },
     {
       title: "Santa's Snow Rockers",
@@ -87,7 +140,7 @@ const ChristmasPage = () => {
     m.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
- const handleNameSelect = (name: string) => {
+  const handleNameSelect = (name: string) => {
     setSelectedName(name);
     setSearchQuery('');
     setCurrentPage('welcome');
@@ -101,9 +154,9 @@ const ChristmasPage = () => {
     if (spinning || revealedTeam) return;
     
     const memberData = allMembers.find(m => m.name === selectedName);
-// You might want to add a null check since find() can return undefined
-if (!memberData) return; // Add this check
-   const teamIndex = teams.findIndex(t => t.title === memberData.team.title);
+    if (!memberData) return;
+    
+    const teamIndex = teams.findIndex(t => t.title === memberData.team.title);
     
     setSpinning(true);
     
@@ -131,19 +184,11 @@ if (!memberData) return; // Add this check
     setShowAllTeams(false);
   };
 
+  // Optimized BackgroundElements with reduced animations on mobile
   const BackgroundElements = () => (
     <>
-      {/* Realistic Background Texture */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at 20% 50%, rgba(255,215,0,0.1) 0%, transparent 50%),
-                           radial-gradient(circle at 80% 80%, rgba(220,38,38,0.1) 0%, transparent 50%),
-                           radial-gradient(circle at 40% 20%, rgba(34,197,94,0.1) 0%, transparent 50%)`
-        }}></div>
-      </div>
-
-      {/* Realistic Snowfall */}
-      {mounted && [...Array(50)].map((_, i) => (
+      {/* Reduced snowflakes on mobile */}
+      {mounted && [...Array(window.innerWidth < 768 ? 20 : 50)].map((_, i) => (
         <div
           key={`snow-${i}`}
           className="absolute rounded-full bg-white pointer-events-none"
@@ -156,13 +201,15 @@ if (!memberData) return; // Add this check
             animationDelay: `${Math.random() * 8}s`,
             opacity: 0.4 + Math.random() * 0.6,
             boxShadow: '0 0 10px rgba(255,255,255,0.5)',
-            filter: 'blur(0.5px)'
+            filter: 'blur(0.5px)',
+            willChange: 'transform',
+            transform: 'translate3d(0,0,0)'
           }}
         />
       ))}
 
-      {/* Glowing Golden Ornaments */}
-      {mounted && [...Array(20)].map((_, i) => (
+      {/* Reduced ornaments on mobile */}
+      {mounted && [...Array(window.innerWidth < 768 ? 8 : 20)].map((_, i) => (
         <div
           key={`ornament-${i}`}
           className="absolute pointer-events-none"
@@ -170,7 +217,8 @@ if (!memberData) return; // Add this check
             left: `${Math.random() * 100}%`,
             top: `${Math.random() * 100}%`,
             animation: `gentle-float ${4 + Math.random() * 6}s ease-in-out infinite`,
-            animationDelay: `${Math.random() * 3}s`
+            animationDelay: `${Math.random() * 3}s`,
+            willChange: 'transform'
           }}
         >
           <div className="relative">
@@ -183,14 +231,14 @@ if (!memberData) return; // Add this check
         </div>
       ))}
 
-      {/* Realistic String Lights */}
+      {/* Simplified string lights on mobile */}
       <div className="absolute top-0 w-full pointer-events-none">
         <svg width="100%" height="100" className="absolute top-0">
           <path d="M 0,30 Q 50,20 100,30 T 200,30 T 300,30 T 400,30 T 500,30 T 600,30 T 700,30 T 800,30 T 900,30 T 1000,30 T 1100,30 T 1200,30 T 1300,30 T 1400,30 T 1500,30 T 1600,30 T 1700,30 T 1800,30 T 1900,30 T 2000,30" 
                 stroke="#1a4d1a" strokeWidth="2" fill="none" />
         </svg>
         <div className="flex justify-around items-start px-4 pt-8">
-          {[...Array(25)].map((_, i) => {
+          {[...Array(window.innerWidth < 768 ? 15 : 25)].map((_, i) => {
             const colors = [
               { bg: 'bg-red-500', shadow: 'shadow-red-500/80', glow: 'bg-red-400' },
               { bg: 'bg-yellow-400', shadow: 'shadow-yellow-400/80', glow: 'bg-yellow-300' },
@@ -204,7 +252,8 @@ if (!memberData) return; // Add this check
                 className="relative flex-shrink-0"
                 style={{
                   animation: `twinkle ${1.5 + Math.random() * 1.5}s ease-in-out infinite`,
-                  animationDelay: `${Math.random() * 2}s`
+                  animationDelay: `${Math.random() * 2}s`,
+                  willChange: 'opacity, transform'
                 }}
               >
                 <div className="w-1 h-12 bg-green-900 mx-auto"></div>
@@ -222,8 +271,8 @@ if (!memberData) return; // Add this check
 
   const CompanyLogos = () => (
     <>
-      {/* Top Center Logo - Zoifintech.png */}
-      <div className="absolute top-2 sm:top-4 left-1/2 transform -translate-x-1/2 z-20 w-full px-4 flex justify-center">
+      {/* Top Center Logo */}
+      <div className="absolute top-2 sm:top-4 left-1/2 transform -translate-x-1/2 z-20 w-full px-4 flex justify-center pointer-events-none">
         <div className="relative bg-gradient-to-br from-white/90 to-white/70 backdrop-blur-md rounded-lg sm:rounded-xl md:rounded-2xl p-1.5 sm:p-2 md:p-3 shadow-xl sm:shadow-2xl border border-yellow-300/40 sm:border-2 sm:border-yellow-300/50 max-w-[120px] xs:max-w-[140px] sm:max-w-[160px] md:max-w-[200px] lg:max-w-[220px]">
           <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/20 to-amber-500/20 rounded-lg sm:rounded-xl md:rounded-2xl blur-sm"></div>
           <div className="relative">
@@ -231,18 +280,19 @@ if (!memberData) return; // Add this check
               src="/Zoifintech.png" 
               alt="Zoifintech Logo" 
               className="h-6 sm:h-7 md:h-8 lg:h-10 w-auto object-contain mx-auto"
-             onError={(e) => {
-  const target = e.target as HTMLImageElement;
-  target.onerror = null;
-  target.src = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTI4IiBoZWlnaHQ9IjQwIiB2aWV3Qm94PSIwIDAgMTI4IDQwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMjgiIGhl/";
-}}
+              loading="lazy"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.onerror = null;
+                target.src = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTI4IiBoZWlnaHQ9IjQwIiB2aWV3Qm94PSIwIDAgMTI4IDQwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMjgiIGhl/";
+              }}
             />
           </div>
         </div>
       </div>
 
-      {/* Left Bottom Logo - trakzo.png */}
-      <div className="absolute bottom-4 sm:bottom-6 left-2 sm:left-4 md:left-6 lg:left-8 z-20">
+      {/* Left Bottom Logo */}
+      <div className="absolute bottom-4 sm:bottom-6 left-2 sm:left-4 md:left-6 lg:left-8 z-20 pointer-events-none">
         <div className="relative backdrop-blur-sm rounded-lg sm:rounded-xl md:rounded-2xl p-1.5 sm:p-2 shadow-lg sm:shadow-xl border border-white/20 sm:border-2 sm:border-white/30 max-w-[80px] xs:max-w-[100px] sm:max-w-[120px] md:max-w-[140px] lg:max-w-[160px]">
           <div className="absolute inset-0 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-lg sm:rounded-xl md:rounded-2xl blur-sm"></div>
           <div className="relative">
@@ -250,18 +300,19 @@ if (!memberData) return; // Add this check
               src="/trakzo.png" 
               alt="Trakzo Logo" 
               className="h-5 sm:h-6 md:h-7 lg:h-8 w-auto object-contain mx-auto"
-             onError={(e) => {
-  const target = e.target as HTMLImageElement;
-  target.onerror = null;
-  target.src = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iMzIiIHZpZXdCYW94PSIwIDAgOTYgMzIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iIzAwNjZGMyIvPjx0ZXh0IHg9IjQ4IiB5PSIxNiIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+VHJha3pvPC90ZXh0Pjwvc3ZnPg==";
-}}
+              loading="lazy"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.onerror = null;
+                target.src = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iMzIiIHZpZXdCYW94PSIwIDAgOTYgMzIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iIzAwNjZGMyIvPjx0ZXh0IHg9IjQ4IiB5PSIxNiIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+VHJha3pvPC90ZXh0Pjwvc3ZnPg==";
+              }}
             />
           </div>
         </div>
       </div>
 
-      {/* Right Bottom Logo - Jademoney.png */}
-      <div className="absolute bottom-4 sm:bottom-6 right-2 sm:right-4 md:right-6 lg:right-8 z-20">
+      {/* Right Bottom Logo */}
+      <div className="absolute bottom-4 sm:bottom-6 right-2 sm:right-4 md:right-6 lg:right-8 z-20 pointer-events-none">
         <div className="relative backdrop-blur-sm rounded-lg sm:rounded-xl md:rounded-2xl p-1.5 sm:p-2 shadow-lg sm:shadow-xl border border-white/20 sm:border-2 sm:border-white/30 max-w-[80px] xs:max-w-[100px] sm:max-w-[120px] md:max-w-[140px] lg:max-w-[160px]">
           <div className="absolute inset-0 bg-gradient-to-br from-green-400/10 to-emerald-400/10 rounded-lg sm:rounded-xl md:rounded-2xl blur-sm"></div>
           <div className="relative">
@@ -269,11 +320,12 @@ if (!memberData) return; // Add this check
               src="/Jademoney.png" 
               alt="Jademoney Logo" 
               className="h-5 sm:h-6 md:h-7 lg:h-8 w-auto object-contain mx-auto"
-            onError={(e) => {
-  const target = e.target as HTMLImageElement;
-  target.onerror = null;
-  target.src = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iMzIiIHZpZXdCYW94PSIwIDAgOTYgMzIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iIzEwQjUyMCIvPjx0ZXh0IHg9IjQ4IiB5PSIxNiIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+SmFkZW1vbmV5PC90ZXh0Pjwvc3ZnPg==";
-}}
+              loading="lazy"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.onerror = null;
+                target.src = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iMzIiIHZpZXdCYW94PSIwIDAgOTYgMzIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iIzEwQjUyMCIvPjx0ZXh0IHg9IjQ4IiB5PSIxNiIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+SmFkZW1vbmV5PC90ZXh0Pjwvc3ZnPg==";
+              }}
             />
           </div>
         </div>
@@ -282,7 +334,13 @@ if (!memberData) return; // Add this check
   );
 
   return (
-    <div className="min-h-screen relative overflow-y-auto bg-gradient-to-br from-emerald-950 via-red-950 to-amber-950">
+    <div 
+      className={`min-h-screen relative bg-gradient-to-br from-emerald-950 via-red-950 to-amber-950 overflow-x-hidden ${isScrolling ? 'overflow-y-hidden' : 'overflow-y-auto'}`}
+      style={{
+        WebkitOverflowScrolling: 'touch',
+        overflowScrolling: 'touch'
+      }}
+    >
       <BackgroundElements />
       <CompanyLogos />
 
@@ -356,6 +414,7 @@ if (!memberData) return; // Add this check
                       key={i}
                       onClick={() => handleNameSelect(member.name)}
                       className="relative group px-4 sm:px-6 py-3 sm:py-4 rounded-xl bg-gradient-to-br from-yellow-400/20 to-amber-600/20 backdrop-blur-sm border-2 border-yellow-400/30 hover:border-yellow-400/60 hover:from-yellow-400/30 hover:to-amber-600/30 transition-all transform hover:scale-105 hover:shadow-2xl"
+                      style={{transform: 'translate3d(0,0,0)'}}
                     >
                       <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/0 via-yellow-400/20 to-yellow-400/0 opacity-0 group-hover:opacity-100 rounded-xl transition-opacity"></div>
                       <span className="relative text-yellow-50 font-semibold text-base sm:text-lg block"
@@ -437,7 +496,9 @@ if (!memberData) return; // Add this check
                 className="relative drop-shadow-2xl w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] md:w-[360px] md:h-[360px] lg:w-[400px] lg:h-[400px]"
                 style={{
                   transform: `rotate(${rotation}deg)`,
-                  transition: spinning ? 'transform 4s cubic-bezier(0.25, 0.1, 0.25, 1)' : 'none'
+                  transition: spinning ? 'transform 4s cubic-bezier(0.25, 0.1, 0.25, 1)' : 'none',
+                  transformStyle: 'preserve-3d',
+                  willChange: 'transform'
                 }}
               >
                 <defs>
@@ -542,7 +603,8 @@ if (!memberData) return; // Add this check
                     } transition-all`}
                     style={{
                       textShadow: '1px 1px 3px rgba(0,0,0,0.5)',
-                      animation: member === selectedName ? 'pulse 2s ease-in-out infinite' : 'none'
+                      animation: member === selectedName ? 'pulse 2s ease-in-out infinite' : 'none',
+                      transform: 'translate3d(0,0,0)'
                     }}
                   >
                     {member === selectedName ? '👑 ' : '⭐ '}{member}
@@ -556,7 +618,7 @@ if (!memberData) return; // Add this check
               <button
                 onClick={() => setShowAllTeams(true)}
                 className="relative group px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 rounded-xl sm:rounded-2xl bg-gradient-to-r from-green-500 via-emerald-600 to-green-500 text-white font-bold text-base sm:text-lg md:text-xl shadow-xl sm:shadow-2xl hover:shadow-green-400/50 transform hover:scale-105 transition-all border-3 sm:border-4 border-green-300"
-                style={{fontFamily: 'Georgia, serif'}}
+                style={{fontFamily: 'Georgia, serif', transform: 'translate3d(0,0,0)'}}
               >
                 <span className="relative z-10">👥 View All Teams</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-green-400 via-emerald-500 to-green-400 rounded-xl sm:rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-md"></div>
@@ -565,7 +627,7 @@ if (!memberData) return; // Add this check
               <button
                 onClick={resetExperience}
                 className="relative group px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 rounded-xl sm:rounded-2xl bg-gradient-to-r from-yellow-400 via-amber-500 to-yellow-400 text-red-900 font-bold text-base sm:text-lg md:text-xl shadow-xl sm:shadow-2xl hover:shadow-yellow-400/50 transform hover:scale-105 transition-all border-3 sm:border-4 border-yellow-200"
-                style={{fontFamily: 'Georgia, serif'}}
+                style={{fontFamily: 'Georgia, serif', transform: 'translate3d(0,0,0)'}}
               >
                 <span className="relative z-10">🔄 Start Over</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-yellow-300 via-amber-400 to-yellow-300 rounded-xl sm:rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-md"></div>
@@ -575,12 +637,18 @@ if (!memberData) return; // Add this check
         </div>
       )}
 
-      {/* All Teams View Modal */}
+      {/* All Teams View Modal - Fixed for mobile */}
       {showAllTeams && (
         <div className="fixed inset-0 z-50 overflow-y-auto bg-gradient-to-br from-emerald-950 via-red-950 to-amber-950">
           <BackgroundElements />
           
-          <div className="relative z-10 min-h-screen px-4 py-20 sm:py-24">
+          <div 
+            className="relative z-10 min-h-screen px-4 py-20 sm:py-24 overflow-y-auto"
+            style={{
+              WebkitOverflowScrolling: 'touch',
+              overflowScrolling: 'touch'
+            }}
+          >
             <div className="max-w-7xl mx-auto">
               <div className="text-center mb-8 sm:mb-12">
                 <div className="mb-4 sm:mb-6">
@@ -634,6 +702,7 @@ if (!memberData) return; // Add this check
                   <div
                     key={i}
                     className={`relative bg-gradient-to-br ${team.color} backdrop-blur-xl rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-xl sm:shadow-2xl border-2 ${team.border} transform hover:scale-105 transition-all duration-300 ${team.glow} hover:shadow-2xl`}
+                    style={{transform: 'translate3d(0,0,0)'}}
                   >
                     <div className="text-5xl sm:text-6xl text-center mb-3 sm:mb-4 animate-bounce" style={{animationDuration: '2s', animationDelay: `${i * 0.2}s`}}>
                       {team.icon}
@@ -651,7 +720,7 @@ if (!memberData) return; // Add this check
                               ? 'bg-gradient-to-r from-yellow-400/40 to-amber-600/40 border-yellow-400 shadow-lg shadow-yellow-400/50'
                               : 'bg-white/15 border-yellow-400/20 hover:bg-white/25 hover:border-yellow-400/40'
                           }`}
-                          style={{textShadow: '1px 1px 2px rgba(0,0,0,0.5)'}}
+                          style={{textShadow: '1px 1px 2px rgba(0,0,0,0.5)', transform: 'translate3d(0,0,0)'}}
                         >
                           {member === selectedName ? '👑 ' : '⭐ '}{member}
                           {member === selectedName && ' (You!)'}
@@ -674,7 +743,7 @@ if (!memberData) return; // Add this check
                 <button
                   onClick={() => setShowAllTeams(false)}
                   className="relative group px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 rounded-xl sm:rounded-2xl bg-gradient-to-r from-red-500 via-red-600 to-red-500 text-white font-bold text-base sm:text-lg md:text-xl shadow-xl sm:shadow-2xl hover:shadow-red-400/50 transform hover:scale-105 transition-all border-3 sm:border-4 border-red-300"
-                  style={{fontFamily: 'Georgia, serif'}}
+                  style={{fontFamily: 'Georgia, serif', transform: 'translate3d(0,0,0)'}}
                 >
                   <span className="relative z-10">← Back to My Team</span>
                   <div className="absolute inset-0 bg-gradient-to-r from-red-400 via-red-500 to-red-400 rounded-xl sm:rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-md"></div>
@@ -760,11 +829,41 @@ if (!memberData) return; // Add this check
           background: linear-gradient(to bottom, #ffed4e, #ff8c00);
         }
         
+        /* Performance optimizations */
+        * {
+          -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* Optimize for mobile */
+        @media (max-width: 768px) {
+          .animate-bounce,
+          .animate-pulse {
+            animation-duration: 1.5s !important;
+          }
+          
+          /* Reduce blur effects on mobile */
+          .backdrop-blur-xl {
+            backdrop-filter: blur(12px);
+          }
+          
+          /* Optimize transitions */
+          .transition-all {
+            transition-duration: 200ms;
+          }
+        }
+        
         /* Responsive breakpoints */
         @media (max-width: 480px) {
           .xs\:max-w-\[140px\] {
             max-width: 140px;
           }
+        }
+        
+        /* Force GPU acceleration */
+        .gpu-accelerate {
+          transform: translate3d(0,0,0);
+          backface-visibility: hidden;
+          perspective: 1000px;
         }
       `}</style>
     </div>
