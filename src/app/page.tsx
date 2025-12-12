@@ -38,7 +38,7 @@ const ChristmasPage = () => {
 
   const teams = [
     {
-      title: 'Ho Ho Heroes',
+      title: 'Ho Ho Heroes - Blue',
       icon: '🎅',
       color: 'from-blue-700/40 to-blue-900/40',
       border: 'border-blue-400/60',
@@ -48,7 +48,7 @@ const ChristmasPage = () => {
       members: ['Sabari Krishnan', 'Nisanth', 'Melda', 'Kader Riyaz', 'Dhanusiya', 'ArunNathan','Sornalatha']
     },
     {
-      title: 'Snowman Buddies',
+      title: 'Snowman Buddies - Red',
       icon: '⛄',
       color: 'from-red-700/40 to-red-900/40',
       border: 'border-red-400/60',
@@ -58,7 +58,7 @@ const ChristmasPage = () => {
       members: [ 'Tony Walter','Vaikundamani', 'Prem Kumar', 'Sornalakshmi', 'Ignecia Rathna','Raja Prabu','Maharaja']
     },
     {
-      title: 'Sugar Plum Fairies',
+      title: 'Sugar Plum Fairies - White',
       icon: '🧚',
       color: 'from-slate-300/40 to-slate-500/40',
       border: 'border-slate-300/60',
@@ -68,7 +68,7 @@ const ChristmasPage = () => {
       members: ['Srinath','Muthu Rathi', 'Maria Arokia Peno' , 'Pon Abishek', 'Jamuna','Thangaraja', 'Selva Lakshmi', 'Akshaya']
     },
     {
-      title: "Santa's Snow Rockers",
+      title: "Santa's Snow Rockers - Green",
       icon: '🎸',
       color: 'from-green-700/40 to-green-900/40',
       border: 'border-green-400/60',
