@@ -79,7 +79,8 @@ const ChristmasPage = () => {
       border: 'border-slate-300/60',
       glow: 'shadow-slate-400/30',
       badge: 'bg-slate-100',
-      wheelColor: '#94a3b8',
+      // wheelColor: '#94a3b8',
+      wheelColor: '#f9fafcff',
       members: ['Srinath', 'Muthu Rathi', 'Maria Arokia Peno', 'Pon Abishek', 'Jamuna', 'Thangaraja', 'Selva Lakshmi', 'Akshaya']
     },
     {
