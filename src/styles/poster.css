@@ -1,0 +1,33 @@
+/* Christmas glowing lights around border */
+.lights-border {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 5;
+  box-shadow: 0 0 30px 10px red inset,
+              0 0 40px 20px green inset,
+              0 0 50px 25px gold inset;
+  animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+  from { box-shadow: 0 0 20px red inset; }
+  to   { box-shadow: 0 0 40px gold inset; }
+}
+
+/* Falling emojis */
+@keyframes fall {
+  0% { transform: translateY(-50px) rotate(0deg); }
+  100% { transform: translateY(110vh) rotate(360deg); }
+}
+
+.emoji {
+  position: fixed;
+  top: -20px;
+  font-size: 32px;
+  animation: fall linear infinite;
+  z-index: 4;
+}
+
