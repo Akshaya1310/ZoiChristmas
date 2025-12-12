@@ -1,0 +1,3 @@
+module.exports=[1259,a=>{"use strict";var b=a.i(64407);function c({children:a}){return(0,b.jsx)("html",{lang:"en",children:(0,b.jsx)("body",{className:"antialiased overflow-x-hidden",children:a})})}a.s(["default",()=>c,"metadata",0,{title:"Christmas Celebration 2025",description:"Interactive Christmas Poster with Animations"}])}];
+
+//# sourceMappingURL=Akshaya_Documents_GitHub_ZoiChristmas_src_app_layout_tsx_98d2d808._.js.map

@@ -10,28 +10,27 @@ const ChristmasPage = () => {
   const [selectedName, setSelectedName] = useState('');
   const [spinning, setSpinning] = useState(false);
   const [rotation, setRotation] = useState(0);
-  const [revealedTeam, setRevealedTeam] = useState(null);
+  const [revealedTeam, setRevealedTeam] = useState<typeof teams[0] | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState('name-select');
   const [showAllTeams, setShowAllTeams] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    const calculateCountdown = () => {
-      const celebration = new Date('2025-12-20T00:00:00');
-      const now = new Date();
-      const diff = celebration - now;
+   const calculateCountdown = () => {
+  const celebration = new Date('2025-12-20T00:00:00');
+  const now = new Date();
+  const diff = celebration.getTime() - now.getTime(); // Add .getTime() here
 
-      if (diff > 0) {
-        setCountdown({
-          days: Math.floor(diff / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
-          minutes: Math.floor((diff / (1000 * 60)) % 60),
-          seconds: Math.floor((diff / 1000) % 60)
-        });
-      }
-    };
-
+  if (diff > 0) {
+    setCountdown({
+      days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+      hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+      minutes: Math.floor((diff / (1000 * 60)) % 60),
+      seconds: Math.floor((diff / 1000) % 60)
+    });
+  }
+};
     calculateCountdown();
     const timer = setInterval(calculateCountdown, 1000);
     return () => clearInterval(timer);
@@ -88,7 +87,7 @@ const ChristmasPage = () => {
     m.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const handleNameSelect = (name) => {
+ const handleNameSelect = (name: string) => {
     setSelectedName(name);
     setSearchQuery('');
     setCurrentPage('welcome');
@@ -102,7 +101,9 @@ const ChristmasPage = () => {
     if (spinning || revealedTeam) return;
     
     const memberData = allMembers.find(m => m.name === selectedName);
-    const teamIndex = teams.findIndex(t => t.title === memberData.team.title);
+// You might want to add a null check since find() can return undefined
+if (!memberData) return; // Add this check
+   const teamIndex = teams.findIndex(t => t.title === memberData.team.title);
     
     setSpinning(true);
     
@@ -230,10 +231,11 @@ const ChristmasPage = () => {
               src="/Zoifintech.png" 
               alt="Zoifintech Logo" 
               className="h-6 sm:h-7 md:h-8 lg:h-10 w-auto object-contain mx-auto"
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTI4IiBoZWlnaHQ9IjQwIiB2aWV3Qm94PSIwIDAgMTI4IDQwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMjgiIGhl/";
-              }}
+             onError={(e) => {
+  const target = e.target as HTMLImageElement;
+  target.onerror = null;
+  target.src = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTI4IiBoZWlnaHQ9IjQwIiB2aWV3Qm94PSIwIDAgMTI4IDQwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMjgiIGhl/";
+}}
             />
           </div>
         </div>
@@ -248,10 +250,11 @@ const ChristmasPage = () => {
               src="/trakzo.png" 
               alt="Trakzo Logo" 
               className="h-5 sm:h-6 md:h-7 lg:h-8 w-auto object-contain mx-auto"
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iMzIiIHZpZXdCYW94PSIwIDAgOTYgMzIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iIzAwNjZGMyIvPjx0ZXh0IHg9IjQ4IiB5PSIxNiIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+VHJha3pvPC90ZXh0Pjwvc3ZnPg==";
-              }}
+             onError={(e) => {
+  const target = e.target as HTMLImageElement;
+  target.onerror = null;
+  target.src = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iMzIiIHZpZXdCYW94PSIwIDAgOTYgMzIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iIzAwNjZGMyIvPjx0ZXh0IHg9IjQ4IiB5PSIxNiIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+VHJha3pvPC90ZXh0Pjwvc3ZnPg==";
+}}
             />
           </div>
         </div>
@@ -266,10 +269,11 @@ const ChristmasPage = () => {
               src="/Jademoney.png" 
               alt="Jademoney Logo" 
               className="h-5 sm:h-6 md:h-7 lg:h-8 w-auto object-contain mx-auto"
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iMzIiIHZpZXdCYW94PSIwIDAgOTYgMzIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iIzEwQjUyMCIvPjx0ZXh0IHg9IjQ4IiB5PSIxNiIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+SmFkZW1vbmV5PC90ZXh0Pjwvc3ZnPg==";
-              }}
+            onError={(e) => {
+  const target = e.target as HTMLImageElement;
+  target.onerror = null;
+  target.src = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iMzIiIHZpZXdCYW94PSIwIDAgOTYgMzIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iIzEwQjUyMCIvPjx0ZXh0IHg9IjQ4IiB5PSIxNiIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+SmFkZW1vbmV5PC90ZXh0Pjwvc3ZnPg==";
+}}
             />
           </div>
         </div>

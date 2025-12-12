@@ -1,0 +1,11 @@
+var R=require("../../chunks/ssr/[turbopack]_runtime.js")("server/app/_global-error/page.js")
+R.c("server/chunks/ssr/[root-of-the-server]__fa5ba46b._.js")
+R.c("server/chunks/ssr/Akshaya_Documents_GitHub_ZoiChristmas_cbaf5bb6._.js")
+R.c("server/chunks/ssr/fa316_next_dist_cc3c71f4._.js")
+R.c("server/chunks/ssr/[root-of-the-server]__b938d567._.js")
+R.c("server/chunks/ssr/[root-of-the-server]__14f6e08a._.js")
+R.c("server/chunks/ssr/fa316_next_dist_3ef271de._.js")
+R.c("server/chunks/ssr/Akshaya_Documents_GitHub_ZoiChristmas_src_app_56285b4e._.js")
+R.c("server/chunks/ssr/2c1c2_ZoiChristmas__next-internal_server_app__global-error_page_actions_5bf36936.js")
+R.m(20881)
+module.exports=R.m(20881).exports
