@@ -75,7 +75,7 @@ const ChristmasPage = () => {
       glow: 'shadow-green-500/30',
       badge: 'bg-green-500',
       wheelColor: '#22c55e',
-      members: ['Manikandan', 'Dulcy Navaroj', 'Muthu Kannan', 'Michal Felix', 'Deepa', 'Harish Praveen', 'Arun', 'Raj Kumar']
+      members: ['Manikandan', 'Dulcy Navaroj', 'Muthu Kannan', 'Michal Felix', 'Deepa', 'Harish Pravin', 'Arun', 'Raj Kumar']
     }
   ];
 
